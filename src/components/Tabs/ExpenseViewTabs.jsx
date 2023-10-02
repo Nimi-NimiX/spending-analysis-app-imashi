@@ -42,11 +42,19 @@ function a11yProps(index) {
 }
 
 const ExpenseViewTabs = ({data, onAddExpense}) => {
-  const e = data;
+  const propData = data;
   const [value, setValue] = React.useState(0);
   const [isAddModalOpen, setIsAddModelOpen] = React.useState(false);
-  const [expenseData, setExpenseData] = React.useState({});
-  const [expenses, setExpenses] = React.useState(e);
+  const [newExpense, setnewExpense] = React.useState({});
+  const [expenses, setExpenses] = React.useState(propData);
+
+    // runs only in first render
+    // React.useEffect(() => {
+    //   // Load expenses from local storage when the component renders
+    //   const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || propData;
+    //   console.log('from local st: ', storedExpenses)
+    //   setExpenses(storedExpenses);
+    // },[]);
 
   const handleAddExpense = () => {
       console.log('expense added')
@@ -58,15 +66,15 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
   };
 
   const handleDoneAdd = () => {
-    console.log('onAddExpense:', onAddExpense, 'dataa', expenseData);
-    onAddExpense(expenseData);
+    console.log('onAddExpense:', newExpense);
+    onAddExpense(newExpense);
     setIsAddModelOpen(false);
   };
   
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setExpenseData((prevData) => ({
+    setnewExpense((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -113,7 +121,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
                         label="Date"
                         type="date"
                         name="date"
-                        value={expenseData.date}
+                        value={newExpense.date}
                         onChange={handleInputChange}
                     /></Box>
                     <Stack direction='row'  mb={2} spacing={2}>
@@ -123,7 +131,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
                                 labelId="category-label"
                                 label="Category"
                                 name="category"
-                                value={expenseData.category}
+                                value={newExpense.category}
                                 onChange={handleInputChange}
                                 >
                                 <MenuItem value="Transportation">Transportation</MenuItem>
@@ -134,7 +142,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
                             <TextField
                                 label="Name"
                                 name="name"
-                                value={expenseData.name}
+                                value={newExpense.name}
                                 onChange={handleInputChange}
                             />
                     </Stack>
@@ -144,7 +152,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
                         sx={{width: '100%'}}
                         type="number"
                         name="amount"
-                        value={expenseData.amount}
+                        value={newExpense.amount}
                         onChange={handleInputChange}
                     />
                     </Box>

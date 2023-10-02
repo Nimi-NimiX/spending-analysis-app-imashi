@@ -17,9 +17,9 @@ const AllTransactions = () => {
   let arr = [];
 
   const data = [
-    { id: 1, date: '2023-10-05', category: 'Groceries', name: 'Bread', amount: 350 },
-    { id: 2, date: '2023-10-06', category: 'Transportation', name: 'Taxi', amount: 1000 },
-    { id: 3, date: '2023-10-07', category: 'Other', name: 'Tuition fee', amount: 10000 },
+    { id: '1', date: '2023-10-05', category: 'Groceries', name: 'Bread', amount: 350 },
+    { id: '2', date: '2023-10-06', category: 'Transportation', name: 'Taxi', amount: 1000 },
+    { id: '3', date: '2023-10-07', category: 'Other', name: 'Tuition fee', amount: 10000 },
   ]
 
   const [expenses, setExpenses] = React.useState(data);
@@ -34,13 +34,15 @@ const AllTransactions = () => {
 
 
   const onAddExpense = (newExpense) => {
-    newExpense.id = uuidv4();
+    newExpense.id = uuidv4(); // add unique id
+    newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
     console.log('new exp', newExpense)
     arr = expenses
     arr.unshift(newExpense);
     setExpenses(arr)
     console.log('newly added ex', newExpense, expenses, 'arrr', arr);
-    localStorage.setItem('expenses', JSON.stringify([arr, ...expenses]))
+    // localStorage.setItem('expenses', JSON.stringify([arr, ...expenses]))
+    localStorage.setItem('expenses', JSON.stringify(arr))
   }
 
 
