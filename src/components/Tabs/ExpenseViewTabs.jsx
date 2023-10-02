@@ -8,6 +8,7 @@ import ExpensesList from '../Lists/ExpenseList';
 import {  Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddExpenseModal from '../Forms/AddExpense';
+import { v4 as uuidv4 } from 'uuid';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,6 +52,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
     category: '',
     name: '',
     amount: '',
+    id: undefined,
   });
   const [expenses, setExpenses] = React.useState(propData);
 
@@ -64,7 +66,12 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
   };
 
   const handleDoneAdd = () => {
-    console.log('onAddExpense:', newExpense);
+    // Reset the id property to an empty string 
+    setnewExpense((prevData) => ({
+      ...prevData,
+      id: undefined,
+    }));
+    console.log('dldldldd, ', newExpense.id);
     onAddExpense(newExpense);
     setIsAddModelOpen(false);
   };

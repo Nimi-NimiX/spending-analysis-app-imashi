@@ -14,13 +14,7 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const AllTransactions = () => {
-  let arr = [];
-
-  const data = [
-    { id: '1', date: '2023-10-05', category: 'Groceries', name: 'Bread', amount: 350 },
-    { id: '2', date: '2023-10-06', category: 'Transportation', name: 'Taxi', amount: 1000 },
-    { id: '3', date: '2023-10-07', category: 'Other', name: 'Tuition fee', amount: 10000 },
-  ]
+  const data = [];
 
   const [expenses, setExpenses] = React.useState(data);
 
@@ -31,18 +25,28 @@ const AllTransactions = () => {
     console.log('from local st: ', storedExpenses)
     setExpenses(storedExpenses);
   },[]);
-
+  
+  const isExpenseIdUnique = (newExpense) => {
+    return expenses.some((item) => item.id === newExpense.id)
+  }
 
   const onAddExpense = (newExpense) => {
-    newExpense.id = uuidv4(); // add unique id
     newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
-    console.log('new exp', newExpense)
-    arr = expenses
-    arr.unshift(newExpense);
-    setExpenses(arr)
-    console.log('newly added ex', newExpense, expenses, 'arrr', arr);
-    // localStorage.setItem('expenses', JSON.stringify([arr, ...expenses]))
-    localStorage.setItem('expenses', JSON.stringify(arr))
+    newExpense.id = uuidv4(); // add unique id
+    console.log('before:      ', newExpense.id)
+    let isAvailable = isExpenseIdUnique(newExpense)
+    if(isAvailable) {
+      // generate a different id
+      newExpense.id = '123';
+      console.log('after:      ', newExpense.id)
+    }
+
+    //add new expense to the top of the array
+    const newArr = [newExpense, ...expenses];
+
+    localStorage.setItem('expenses', JSON.stringify(newArr))
+    setExpenses(newArr)
+    console.log('newly added ex', newExpense, 'new arrr', expenses);
   }
 
 
