@@ -20,7 +20,7 @@ const ExpensesList = ({expData}) => {
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
     console.log('inside expense list', storedExpenses, 'el', expenses)
-  }, [expenses]);
+  }, []);
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);
@@ -34,9 +34,8 @@ const ExpensesList = ({expData}) => {
         // replace the expenses map with the new expenses that satisfies the below condition
         return expense.id === editedExpense.id ? editedExpense : expense;
       });
-  
       localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
-    console.log('soon when edited', updatedExpenses, expenses)
+      console.log('soon when edited', updatedExpenses, expenses)
       
       return updatedExpenses;
     });
@@ -44,14 +43,22 @@ const ExpensesList = ({expData}) => {
 
   return (
     <Box sx={{ width: '100%'}}>
-      <ListContainer>
+      {expenses.length === 0? 
+      <>
+        <Box sx={{ marginTop: 3 }}>
+          <Typography variant='caption'>Add your expenses here</Typography>
+        </Box>
+      </>
+      : 
+      <>
+        <ListContainer>
         {/* list heading */}
         <Grid container spacing={0} color='other.textP' textAlign='left' fontSize='0.75rem' paddingLeft='5px'>
-          <Grid item md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
-          <Grid item md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
-          <Grid item md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
-          <Grid item md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
-          <Grid item md={2.1}></Grid>
+          <Grid item xs={2} md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
+          <Grid item xs={3} md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
+          <Grid item xs={3} md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
+          <Grid item xs={2} md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
+          <Grid item xs={2} md={2.1}></Grid>
         </Grid>
         <List
           sx={{
@@ -79,6 +86,7 @@ const ExpensesList = ({expData}) => {
             {/* </ul> */}
         </List>
       </ListContainer>
+      </>}
     </Box>
   );
 }

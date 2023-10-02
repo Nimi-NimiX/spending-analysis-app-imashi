@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { Delete, Edit } from '@mui/icons-material';
 import EditExpenseModal from '../Forms/EditExpense';
+import DeleteConfirmationPopup from '../Forms/DeleteExpense';
+// import DeleteConfirmationPopup from '../Forms/DeleteExpense';
 
 const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editedData, setEditedData] = useState({ ...data });
 
-    const handleEdit = () => {
+  const handleEditExpense = () => {
       console.log('item edited')
     setIsEditModalOpen(true);
   };
 
-    const handleDelete = () => {
+  const handleDeleteExpense = () => {
       console.log('item deleted', data.id)
-    onDelete(data.id); 
+       onDelete(data.id); 
+    // setSelectedExpenseId(data.id);
+    // openDeleteConfirmationModal();
   };
 
   const handleCloseEditModal = () => {
@@ -35,6 +39,19 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
     }));
   };
 
+  
+  /* regarding delete confirmation modal */
+  // const [open, setDeleteModalOpen] = React.useState(false);
+  // const [selectedExpenseId, setSelectedExpenseId] = React.useState('');
+
+  // const openDeleteConfirmationModal = () => {
+  //   setDeleteModalOpen(true);
+  // };
+
+  // const closeDeleteConfirmationModal = () => {
+  //   setDeleteModalOpen(false);
+  // };
+
   return (
     <Box sx={{width:'100%', "&:hover": {backgroundColor: 'secondary.light',},}} paddingX='5px' paddingY='5px' borderRadius='2%'>
       <Grid container spacing={2} color='other.textH' textAlign='left'>
@@ -44,8 +61,8 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
         <Grid item md={2}><Box><Typography variant='caption'>{data.amount}</Typography></Box></Grid>
         <Grid item md={1.7}>
           <Stack direction='row' justifyContent='flex-end' spacing={1}>
-            <Edit onClick={handleEdit} sx={{width: 20, height: 20, color: 'orange'}}/>
-            <Delete onClick={handleDelete} sx={{width: 20, height: 20, color: 'red'}}/>
+            <Edit onClick={handleEditExpense} sx={{width: 20, height: 20, color: 'orange'}}/>
+            <Delete onClick={handleDeleteExpense} sx={{width: 20, height: 20, color: 'red'}}/>
           </Stack>
         </Grid>
       </Grid>
@@ -58,6 +75,13 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
         onChange={handleInputChange}
         editedData={editedData}
       />
+      {/* Delete Modal */}
+      {/* <DeleteConfirmationPopup
+        isOpen={open}
+        onDelete={onDelete}
+        selectedExpenseId={selectedExpenseId}
+        onClose={closeDeleteConfirmationModal}
+        /> */}
     </Box>
   );
 }
