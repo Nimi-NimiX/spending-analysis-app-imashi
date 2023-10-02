@@ -68,6 +68,11 @@
   font-size: 0.75rem !important;
 }
 
+/* table heading font size */
+.css-ati914-MuiTypography-root {
+  font-size: 0.75rem !important;
+}
+
 /* padding of form input boxes */ 
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 15px 14px !important;

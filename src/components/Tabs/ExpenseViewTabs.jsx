@@ -71,7 +71,6 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
       ...prevData,
       id: undefined,
     }));
-    console.log('dldldldd, ', newExpense.id);
     onAddExpense(newExpense);
     setIsAddModelOpen(false);
   };

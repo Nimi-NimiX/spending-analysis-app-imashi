@@ -54,11 +54,11 @@ const ExpensesList = ({expData}) => {
         <ListContainer>
         {/* list heading */}
         <Grid container spacing={0} color='other.textP' textAlign='left' fontSize='0.75rem' paddingLeft='5px'>
-          <Grid item md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
-          <Grid item md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
-          <Grid item md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
-          <Grid item md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
-          <Grid item md={2.1}></Grid>
+          <Grid item xs={2} md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
+          <Grid item xs={3} md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
+          <Grid item xs={3} md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
+          <Grid item xs={2} md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
+          <Grid item xs={2} md={2.1}></Grid>
         </Grid>
         <List
           sx={{

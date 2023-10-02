@@ -15,7 +15,6 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 
 const AllTransactions = () => {
   const data = [];
-
   const [expenses, setExpenses] = React.useState(data);
 
   // runs only in first render
@@ -26,20 +25,10 @@ const AllTransactions = () => {
     setExpenses(storedExpenses);
   },[]);
   
-  const isExpenseIdUnique = (newExpense) => {
-    return expenses.some((item) => item.id === newExpense.id)
-  }
 
   const onAddExpense = (newExpense) => {
     newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
     newExpense.id = uuidv4(); // add unique id
-    console.log('before:      ', newExpense.id)
-    let isAvailable = isExpenseIdUnique(newExpense)
-    if(isAvailable) {
-      // generate a different id
-      newExpense.id = '123';
-      console.log('after:      ', newExpense.id)
-    }
 
     //add new expense to the top of the array
     const newArr = [newExpense, ...expenses];
