@@ -17,11 +17,10 @@ const ExpensesList = ({expData}) => {
   const [expenses, setExpenses] = React.useState([]);
 
   React.useEffect(() => {
-    // runs on every render
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
     console.log('inside expense list', storedExpenses, 'el', expenses)
-  });
+  }, []);
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);

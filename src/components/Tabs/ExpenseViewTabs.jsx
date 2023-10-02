@@ -112,7 +112,7 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
         <Container sx={{marginY: '20px'}}>
             <DialogContent>
                 <Stack>
-                    <Typography color='other.textH' variant='h5' mb={4}>Edit expense details</Typography>
+                    <Typography color='other.textH' variant='h5' mb={4}>Add new expense</Typography>
                     <Box mb={2} sx={{ width: '100%' }}><TextField
                         sx={{width: '100%'}}
                         label="Date"
