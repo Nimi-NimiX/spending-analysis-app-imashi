@@ -62,3 +62,8 @@
 .css-5zhz7n-MuiPaper-root { 
   padding: 12px !important;
 }
+
+/* tab font size */
+.css-1hv0z54-MuiButtonBase-root-MuiTab-root {
+  font-size: 0.75rem !important;
+}
