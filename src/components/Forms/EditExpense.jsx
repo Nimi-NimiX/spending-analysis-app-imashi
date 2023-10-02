@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) => {
+const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Container sx={{ marginY: '20px' }}>
         <DialogContent>
           <Stack>
             <Typography color="other.textH" variant="h5" mb={4}>
-              Add new expense
+              Edit expense details
             </Typography>
             <Box mb={2} sx={{ width: '100%' }}>
               <TextField
@@ -17,7 +17,7 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
                 label="Date"
                 type="date"
                 name="date"
-                value={newExpense.date}
+                value={editedData.date}
                 onChange={onChange}
               />
             </Box>
@@ -28,18 +28,15 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
                   labelId="category-label"
                   label="Category"
                   name="category"
-                  value={newExpense.category}
+                  value={editedData.category}
                   onChange={onChange}
                 >
-                  <MenuItem value="" disabled>
-                    Select Category
-                  </MenuItem>
                   <MenuItem value="Transportation">Transportation</MenuItem>
                   <MenuItem value="Groceries">Groceries</MenuItem>
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </FormControl>
-              <TextField label="Name" name="name" value={newExpense.name} onChange={onChange} />
+              <TextField label="Name" name="name" value={editedData.name} onChange={onChange} />
             </Stack>
             <Box mb={3} sx={{ width: '100%' }}>
               <TextField
@@ -47,14 +44,14 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
                 sx={{ width: '100%' }}
                 type="number"
                 name="amount"
-                value={newExpense.amount}
+                value={editedData.amount}
                 onChange={onChange}
               />
             </Box>
             <Box>
               <Stack direction="row" mb={2} justifyContent="flex-end" spacing={2}>
-                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white' }} onClick={onDoneAdd}>
-                  Add Expense
+                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white' }} onClick={onDoneEdit}>
+                  Done
                 </Button>
                 <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white' }} onClick={onClose}>
                   Cancel
@@ -68,12 +65,12 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
   );
 };
 
-AddExpenseModal.propTypes = {
+EditExpenseModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onDoneAdd: PropTypes.func.isRequired,
+  onDoneEdit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  newExpense: PropTypes.object.isRequired,
+  editedData: PropTypes.object.isRequired,
 };
 
-export default AddExpenseModal;
+export default EditExpenseModal;
