@@ -128,10 +128,10 @@ export default function MiniDrawer() {
               <Typography
                     variant="h6"
                     noWrap
-                    component="a"
+                    component="span"
                     color="other.white"
                     fontWeight='900'
-                    fontSize='1.3rem'
+                    fontSize='1.2rem'
                     >
                     Spendee
                   </Typography>

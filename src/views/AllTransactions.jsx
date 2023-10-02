@@ -51,7 +51,7 @@ const AllTransactions = () => {
       <Grid container spacing={{ xs: 2, md: 4 }}>
           <Grid item md={6} xs={12}>
           <Stack>
-              <Typography variant='h6' color='other.textP' textAlign='left' mb={1}>Income</Typography>
+              <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Income</Typography>
                 <ListContainer sx={{backgroundColor: 'primary.light'}}>
                     <IncomeViewTabs/>
                 </ListContainer>
@@ -59,7 +59,7 @@ const AllTransactions = () => {
           </Grid>
         <Grid item md={6} xs={12}>
             <Stack>
-              <Typography variant='h6' color='other.textP' textAlign='left' mb={1}>Expenses</Typography>
+              <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Expenses</Typography>
                 <ListContainer sx={{backgroundColor: 'secondary.light'}}>
                   <ExpenseViewTabs data={expenses} onAddExpense={onAddExpense} />
                 </ListContainer>

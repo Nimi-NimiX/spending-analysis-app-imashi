@@ -5,8 +5,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpensesList from '../Lists/ExpenseList';
-import { Button, Container, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import {  Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddExpenseModal from '../Forms/AddExpense';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -108,62 +109,13 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
       </Stack>
 
       {/* Add Expense Modal */}
-      <Dialog open={isAddModalOpen} onClose={handleCloseAddModal}>
-        <Container sx={{marginY: '20px'}}>
-            <DialogContent>
-                <Stack>
-                    <Typography color='other.textH' variant='h5' mb={4}>Edit expense details</Typography>
-                    <Box mb={2} sx={{ width: '100%' }}><TextField
-                        sx={{width: '100%'}}
-                        label="Date"
-                        type="date"
-                        name="date"
-                        value={newExpense.date}
-                        onChange={handleInputChange}
-                    /></Box>
-                    <Stack direction='row'  mb={2} spacing={2}>
-                            <FormControl fullWidth>
-                                <InputLabel id="category-label">Category</InputLabel>
-                                <Select
-                                labelId="category-label"
-                                label="Category"
-                                name="category"
-                                value={newExpense.category}
-                                onChange={handleInputChange}
-                                >
-                                  <MenuItem value="" disabled>
-                                    Select Category
-                                  </MenuItem>
-                                  <MenuItem value="Transportation">Transportation</MenuItem>
-                                  <MenuItem value="Groceries">Groceries</MenuItem>
-                                  <MenuItem value="Other">Other</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                label="Name"
-                                name="name"
-                                value={newExpense.name}
-                                onChange={handleInputChange}
-                            />
-                    </Stack>
-                    <Box mb={3} sx={{width: '100%'}}>
-                        <TextField
-                        label="Amount(LKR)"
-                        sx={{width: '100%'}}
-                        type="number"
-                        name="amount"
-                        value={newExpense.amount}
-                        onChange={handleInputChange}
-                    />
-                    </Box>
-                    <Box><Stack direction='row'  mb={2} justifyContent='flex-end' spacing={2}>
-                        <Button variant='contained' sx={{backgroundColor: 'primary.main', color: 'other.white'}} onClick={handleDoneAdd}>Add Expense</Button>
-                        <Button variant='contained' sx={{backgroundColor: '#999494', color: 'other.white'}} onClick={handleCloseAddModal}>Cancel</Button>
-                    </Stack></Box>
-                </Stack>
-            </DialogContent>
-        </Container>
-      </Dialog>
+      <AddExpenseModal
+        isOpen={isAddModalOpen}
+        onClose={handleCloseAddModal}
+        onDoneAdd={handleDoneAdd}
+        onChange={handleInputChange}
+        newExpense={newExpense}
+      />
     </Box>
   );
 }

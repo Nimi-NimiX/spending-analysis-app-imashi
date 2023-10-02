@@ -17,11 +17,10 @@ const ExpensesList = ({expData}) => {
   const [expenses, setExpenses] = React.useState([]);
 
   React.useEffect(() => {
-    // runs on every render
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
     console.log('inside expense list', storedExpenses, 'el', expenses)
-  });
+  }, [expenses]);
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);
@@ -47,7 +46,7 @@ const ExpensesList = ({expData}) => {
     <Box sx={{ width: '100%'}}>
       <ListContainer>
         {/* list heading */}
-        <Grid container spacing={0} color='other.textP' textAlign='left' paddingLeft='5px'>
+        <Grid container spacing={0} color='other.textP' textAlign='left' fontSize='0.75rem' paddingLeft='5px'>
           <Grid item md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
           <Grid item md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
           <Grid item md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
