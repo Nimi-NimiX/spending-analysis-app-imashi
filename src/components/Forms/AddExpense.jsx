@@ -5,16 +5,16 @@ import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Bu
 const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <Container sx={{ marginY: '20px' }}>
+      <Container>
         <DialogContent>
-          <Stack>
-            <Typography color="other.textH" variant="h5" mb={4}>
+          <Stack  sx={{ fontSize: '14px'}}>
+            <Typography color="other.textH" variant="subtitle2" mb={3}>
               Add new expense
             </Typography>
-            <Box mb={2} sx={{ width: '100%' }}>
+            <Box mb={2} sx={{ width: '100%', fontSize: '12px' }}>
               <TextField
                 sx={{ width: '100%' }}
-                label="Date"
+                // label="Date"
                 type="date"
                 name="date"
                 value={newExpense.date}
@@ -34,8 +34,11 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
                   <MenuItem value="" disabled>
                     Select Category
                   </MenuItem>
-                  <MenuItem value="Transportation">Transportation</MenuItem>
                   <MenuItem value="Groceries">Groceries</MenuItem>
+                  <MenuItem value="Medical">Medical</MenuItem>
+                  <MenuItem value="Transportation">Transportation</MenuItem>
+                  <MenuItem value="Education">Education</MenuItem>
+                  <MenuItem value="UtilityBills">UtilityBills</MenuItem>
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </FormControl>
@@ -53,10 +56,10 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
             </Box>
             <Box>
               <Stack direction="row" mb={2} justifyContent="flex-end" spacing={2}>
-                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white' }} onClick={onDoneAdd}>
+                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white', fontSize: '0.75rem' }} onClick={onDoneAdd}>
                   Add Expense
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white' }} onClick={onClose}>
+                <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white', fontSize: '0.75rem'  }} onClick={onClose}>
                   Cancel
                 </Button>
               </Stack>

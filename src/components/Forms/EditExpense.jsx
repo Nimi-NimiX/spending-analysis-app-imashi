@@ -5,10 +5,10 @@ import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Bu
 const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <Container sx={{ marginY: '20px' }}>
+      <Container>
         <DialogContent>
-          <Stack>
-            <Typography color="other.textH" variant="h5" mb={4}>
+          <Stack sx={{ fontSize: '14px'}}>
+            <Typography color="other.textH" variant="subtitle2" mb={4}>
               Edit expense details
             </Typography>
             <Box mb={2} sx={{ width: '100%' }}>
@@ -50,10 +50,10 @@ const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData })
             </Box>
             <Box>
               <Stack direction="row" mb={2} justifyContent="flex-end" spacing={2}>
-                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white' }} onClick={onDoneEdit}>
+                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white', fontSize: '0.75rem'  }} onClick={onDoneEdit}>
                   Done
                 </Button>
-                <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white' }} onClick={onClose}>
+                <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white', fontSize: '0.75rem'  }} onClick={onClose}>
                   Cancel
                 </Button>
               </Stack>
