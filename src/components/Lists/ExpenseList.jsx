@@ -13,15 +13,15 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 const ExpensesList = ({expData}) => {
 
   let expenseData = expData;
-  console.log('propsos', expData)
+  console.log('prop', expData)
   const [expenses, setExpenses] = React.useState([]);
 
   React.useEffect(() => {
-    // Load expenses from local storage when the component renders
+    // runs on every render
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
     console.log('inside expense list', storedExpenses, 'el', expenses)
-  }, []);
+  });
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);
@@ -64,10 +64,10 @@ const ExpensesList = ({expData}) => {
             '& ul': { padding: 0 },
           }}
         >
-            <li style={{padding: 0}}>
-              <ul style={{padding: 0}}>
+            {/* <ul style={{padding: 0}}> */}
                 {expenses.map((expense) => (
-                  <ListItem key={expense.id} style={{ cursor: 'pointer', paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
+                // <li style={{padding: 0}}  key={expense.id} >
+                  <ListItem  key={expense.id} style={{ cursor: 'pointer', paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
                     <ExpenseItemCard
                       key={expense.id}
                       data={expense}
@@ -75,9 +75,9 @@ const ExpensesList = ({expData}) => {
                       onEdit={handleEdit}
                     />
                   </ListItem>
+                // </li>
                 ))}
-              </ul>
-            </li>
+            {/* </ul> */}
         </List>
       </ListContainer>
     </Box>

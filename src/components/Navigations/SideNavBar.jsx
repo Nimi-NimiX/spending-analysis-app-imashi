@@ -131,7 +131,7 @@ export default function MiniDrawer() {
                     component="a"
                     color="other.white"
                     fontWeight='900'
-                    fontSize='1.45rem'
+                    fontSize='1.3rem'
                     >
                     Spendee
                   </Typography>

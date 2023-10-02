@@ -45,16 +45,13 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
   const propData = data;
   const [value, setValue] = React.useState(0);
   const [isAddModalOpen, setIsAddModelOpen] = React.useState(false);
-  const [newExpense, setnewExpense] = React.useState({});
+  const [newExpense, setnewExpense] = React.useState({
+    date: '',
+    category: '',
+    name: '',
+    amount: '',
+  });
   const [expenses, setExpenses] = React.useState(propData);
-
-    // runs only in first render
-    // React.useEffect(() => {
-    //   // Load expenses from local storage when the component renders
-    //   const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || propData;
-    //   console.log('from local st: ', storedExpenses)
-    //   setExpenses(storedExpenses);
-    // },[]);
 
   const handleAddExpense = () => {
       console.log('expense added')
@@ -134,9 +131,12 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
                                 value={newExpense.category}
                                 onChange={handleInputChange}
                                 >
-                                <MenuItem value="Transportation">Transportation</MenuItem>
-                                <MenuItem value="Groceries">Groceries</MenuItem>
-                                <MenuItem value="Other">Other</MenuItem>
+                                  <MenuItem value="" disabled>
+                                    Select Category
+                                  </MenuItem>
+                                  <MenuItem value="Transportation">Transportation</MenuItem>
+                                  <MenuItem value="Groceries">Groceries</MenuItem>
+                                  <MenuItem value="Other">Other</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
