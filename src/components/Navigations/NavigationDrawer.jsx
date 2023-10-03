@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -20,8 +21,8 @@ import Statistics from '@mui/icons-material/ShowChart';
 import Transactions from '@mui/icons-material/ReceiptLong'
 import Budget from '@mui/icons-material/AttachMoney'
 import { Avatar, Container, Tooltip } from '@mui/material';
-import '../../App.css';
 import AllTransactions from '../../views/AllTransactions';
+import { BudgetingPage } from '../../views/Budget';
 
 const drawerWidth = 230;
 
@@ -89,10 +90,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function NavigationDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [selectedNavItem, setSelectedNavItem] = React.useState('text'); // Initial selected item
+  const [open, setOpen] = useState(false);
+  const [selectedNavItem, setSelectedNavItem] = useState('text'); // Initial selected item
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -106,9 +107,8 @@ export default function MiniDrawer() {
     setSelectedNavItem(text);
   };
 
-  return (
-    <Box className={'flexRow'}>
-      <CssBaseline />
+  const customizedAppBar = () => {
+    return (
       <AppBar position="fixed" open={open}>
         <Toolbar className='flexRow' sx={{backgroundColor:"secondary", justifyContent: 'space-between'}}>
             {/* menu icon */}
@@ -143,6 +143,12 @@ export default function MiniDrawer() {
             </Tooltip>
         </Toolbar>
       </AppBar>
+    );
+  }
+  return (
+    <Box className={'flexRow'}>
+      <CssBaseline />
+      {customizedAppBar()}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -212,7 +218,7 @@ export default function MiniDrawer() {
                 >
                   <Statistics />
                 </ListItemIcon>
-              <ListItemText primary={'Monthly Overview'} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary={'Overview'} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -222,7 +228,7 @@ export default function MiniDrawer() {
         {/* Render dynamic content based on the selected navigation item */}
         {selectedNavItem === 'budget' && (
           <Typography paragraph>
-            Content for budget...
+            <BudgetingPage />
           </Typography>
         )}
         {selectedNavItem === 'transactions' && (

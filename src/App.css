@@ -74,7 +74,8 @@
 }
 
 /* padding of form input boxes */ 
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input 
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 15px 14px !important;
   font-size: 12px !important;
 }
