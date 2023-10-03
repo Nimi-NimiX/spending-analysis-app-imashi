@@ -56,7 +56,7 @@ const AddExpenseModal = ({ isOpen, onClose, onDoneAdd, onChange, newExpense }) =
             </Box>
             <Box>
               <Stack direction="row" mb={2} justifyContent="flex-end" spacing={2}>
-                <Button variant="contained" sx={{ backgroundColor: 'primary.main', color: 'other.white', fontSize: '0.75rem' }} onClick={onDoneAdd}>
+                <Button variant="contained" sx={{ backgroundColor: 'secondary.main', color: 'other.white', fontSize: '0.75rem' }} onClick={onDoneAdd}>
                   Add Expense
                 </Button>
                 <Button variant="contained" sx={{ backgroundColor: '#999494', color: 'other.white', fontSize: '0.75rem'  }} onClick={onClose}>

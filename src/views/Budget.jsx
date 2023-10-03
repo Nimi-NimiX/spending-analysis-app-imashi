@@ -2,6 +2,7 @@ import { Box, Stack, TextField } from '@mui/material';
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddExpenseModal from '../components/Forms/AddExpense';
 import AddIncomeModal from '../components/Forms/AddIncome';
 
@@ -131,7 +132,7 @@ const onAddIncome = (newIncome) => {
                 />
             </Box>
             <Stack direction='row' justifyContent='flex-end'>
-                <AddCircleIcon sx={{ width: 30, height: 30, color: 'secondary.main', cursor: 'pointer' }} onClick={handleAddExpense} />
+                <RemoveCircleIcon sx={{ width: 30, height: 30, color: 'secondary.main', cursor: 'pointer' }} onClick={handleAddExpense} />
             </Stack>
             <Stack direction='row' justifyContent='flex-end'>
                 <AddCircleIcon sx={{width: 30, height: 30, color: 'primary.main', cursor: 'pointer'}} onClick={handleAddIncome}/>

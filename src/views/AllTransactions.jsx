@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import { Stack, Typography } from '@mui/material';
 import IncomeViewTabs from '../components/Tabs/IncomeViewTabs';
 import ExpenseViewTabs from '../components/Tabs/ExpenseViewTabs';
-import { v4 as uuidv4 } from 'uuid';
 
 const ListContainer = styled(Paper)(({ theme }) => ({
   // backgroundColor: theme.palette.primary.light,
@@ -24,20 +23,6 @@ const AllTransactions = () => {
     setExpenses(storedExpenses);
   },[]);
   
-
-  // const onAddExpense = (newExpense) => {
-  //   newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
-  //   newExpense.id = uuidv4(); // add unique id
-
-  //   //add new expense to the top of the array
-  //   const newArr = [newExpense, ...expenses];
-
-  //   localStorage.setItem('expenses', JSON.stringify(newArr))
-  //   setExpenses(newArr)
-  //   console.log('newly added ex', newExpense, 'new arrr', expenses);
-  // }
-
-
   return (
     <Box sx={{ flexGrow: 1, paddingTop: '15px' }}>
       <Grid container spacing={{ xs: 2, md: 4 }}>

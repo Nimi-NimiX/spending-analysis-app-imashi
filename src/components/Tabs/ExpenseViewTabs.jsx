@@ -76,9 +76,4 @@ const ExpenseViewTabs = ({data}) => {
   );
 }
 
-
-ExpenseViewTabs.propTypes = {
-  onAddExpense: PropTypes.func.isRequired,
-}
-
 export default ExpenseViewTabs;
