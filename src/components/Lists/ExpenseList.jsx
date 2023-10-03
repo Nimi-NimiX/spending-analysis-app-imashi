@@ -45,8 +45,8 @@ const ExpensesList = ({expData}) => {
     <Box sx={{ width: '100%'}}>
       {expenses.length === 0? 
       <>
-        <Box sx={{ marginTop: 3 }}>
-          <Typography variant='caption'>Add your expenses here</Typography>
+        <Box sx={{ marginTop: 3, marginBottom: 3 }}>
+          <Typography variant='caption'>The expenses you add will appear here</Typography>
         </Box>
       </>
       : 

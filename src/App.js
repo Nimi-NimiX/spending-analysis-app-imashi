@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import MiniDrawer from './components/Navigations/SideNavBar';
+import NavigationDrawer from './components/Navigations/NavigationDrawer';
 
 function App() {
   return (
     <div className="App">
-        <MiniDrawer/>
+        <NavigationDrawer/>
     </div>
   );
 }
