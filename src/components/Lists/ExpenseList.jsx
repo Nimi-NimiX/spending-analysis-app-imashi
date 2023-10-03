@@ -2,9 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { Grid, List, Typography } from '@mui/material';
+import { FormControl, Grid, InputLabel, List, MenuItem, Select, Stack, Typography } from '@mui/material';
 import ExpenseItemCard from '../Cards/ExpenseItemCard';
 import ListItem from '@mui/material/ListItem';
+import RestoreIcon from '@mui/icons-material/Restore';
 
 const ListContainer = styled(Paper)(({ theme }) => ({
   padding: 20,
@@ -15,12 +16,31 @@ const ExpensesList = ({expData}) => {
   let expenseData = expData;
   console.log('prop', expData)
   const [expenses, setExpenses] = React.useState([]);
+  const [filterCategory, setFilterCategory] = React.useState('');
+  const [filterResults, setFilterResults] = React.useState([]);
+  const [noResultsFound, setNoResultsFound] = React.useState(false);
 
-  React.useEffect(() => {
+  const fetchDataFromCache = () => {
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
-    console.log('inside expense list', storedExpenses, 'el', expenses)
+    setFilterResults(storedExpenses);
+    console.log('inside expense list', storedExpenses)
+  }
+
+  // runs only on the first render
+  React.useEffect(() => {
+    fetchDataFromCache();
   }, []);
+
+  // runs everytime when expenses array get updated
+  React.useEffect(() => {
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
+    setFilterResults(storedExpenses);
+  }, [expenses])
+
+  // runs everytime when filterResults array get changed 
+  // React.useEffect(() => {
+  // }, [filterResults])
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);
@@ -41,6 +61,28 @@ const ExpensesList = ({expData}) => {
     });
   };
 
+  /* methods belongs to filter functionality are below */
+  const onChange = (e) => {
+    setFilterCategory(e.target.value);
+    console.log('selected category: ', e.target.value, 'state', filterCategory);
+    console.log('filtered data: ', expenses.filter(expense => expense.category === e.target.value))
+    // replace expenses array with the filtered results
+    const filteredData = expenses.filter(expense => expense.category === e.target.value);
+    if(filteredData.length === 0) {
+      setNoResultsFound(true);
+    } else {
+      setNoResultsFound(false);
+    }
+    setFilterResults(filteredData)
+  }
+
+  const restoreList = () => {
+    setNoResultsFound(false);
+    setFilterCategory('');
+    setFilterResults(expenses);
+    console.log('\n\n after restore', filterResults)
+  }
+
   return (
     <Box sx={{ width: '100%'}}>
       {expenses.length === 0? 
@@ -51,40 +93,73 @@ const ExpensesList = ({expData}) => {
       </>
       : 
       <>
+        <>
+          {/* filter dropdown */}
+          <Stack direction="row" justifyContent='flex-end' mb={2} spacing={2} sx={{}}>
+                <FormControl fullWidth>
+                  <InputLabel id="category-label">Filter by</InputLabel>
+                  <Select
+                    labelId="category-label"
+                    label="Category"
+                    name="category"
+                    value={filterCategory}
+                    onChange={onChange}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Category
+                    </MenuItem>
+                    <MenuItem value="Groceries">Groceries</MenuItem>
+                    <MenuItem value="Medical">Medical</MenuItem>
+                    <MenuItem value="Transportation">Transportation</MenuItem>
+                    <MenuItem value="Education">Education</MenuItem>
+                    <MenuItem value="UtilityBills">UtilityBills</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
+                </FormControl>
+                <Box style={{marginTop: '14px'}}><RestoreIcon onClick={restoreList}/></Box>
+              </Stack>
+        </>
         <ListContainer>
-        {/* list heading */}
-        <Grid container spacing={0} color='other.textP' textAlign='left' fontSize='0.75rem' paddingLeft='5px'>
-          <Grid item xs={2} md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
-          <Grid item xs={3} md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
-          <Grid item xs={3} md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
-          <Grid item xs={2} md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
-          <Grid item xs={2} md={2.1}></Grid>
-        </Grid>
-        <List
-          sx={{
-            width: '100%',
-            minWidth: '100%',
-            overflow: 'auto',
-            maxHeight: 260,
-            paddingY: 0,
-            '& ul': { padding: 0 },
-          }}
-        >
-            {/* <ul style={{padding: 0}}> */}
-                {expenses.map((expense) => (
-                // <li style={{padding: 0}}  key={expense.id} >
-                  <ListItem  key={expense.id} style={{ cursor: 'pointer', paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
-                    <ExpenseItemCard
-                      key={expense.id}
-                      data={expense}
-                      onDelete={handleDelete}
-                      onEdit={handleEdit}
-                    />
-                  </ListItem>
-                // </li>
-                ))}
-            {/* </ul> */}
-        </List>
+        {noResultsFound
+        ?
+          <>
+          <Box sx={{ marginTop: 3, marginBottom: 3 }}>
+            <Typography variant='caption'>No expenses found under {filterCategory} category</Typography>
+          </Box>
+          </>
+        : 
+        <>
+          {/* list heading */}
+          <Grid container spacing={0} color='other.textP' textAlign='left' fontSize='0.75rem' paddingLeft='5px'>
+            <Grid item xs={2} md={2.4}><Box><Typography variant='subtitle2'>Date</Typography></Box></Grid>
+            <Grid item xs={3} md={3}><Box><Typography variant='subtitle2'>Category</Typography></Box></Grid>
+            <Grid item xs={3} md={3.1}><Box><Typography variant='subtitle2'>Name</Typography></Box></Grid>
+            <Grid item xs={2} md={1.5}><Box><Typography variant='subtitle2'>Amount(LKR)</Typography></Box></Grid>
+            <Grid item xs={2} md={2.1}></Grid>
+          </Grid>
+          <List
+            sx={{
+              width: '100%',
+              minWidth: '100%',
+              overflow: 'auto',
+              maxHeight: 260,
+              paddingY: 0,
+              '& ul': { padding: 0 },
+            }}
+          >
+                  {filterResults.map((expense) => (
+                    <ListItem  key={expense.id} style={{ cursor: 'pointer', paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
+                      <ExpenseItemCard
+                        key={expense.id}
+                        data={expense}
+                        onDelete={handleDelete}
+                        onEdit={handleEdit}
+                      />
+                    </ListItem>
+                  ))}
+          </List>
+        </>
+        }
       </ListContainer>
       </>}
     </Box>
