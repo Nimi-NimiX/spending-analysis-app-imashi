@@ -14,29 +14,28 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const AllTransactions = () => {
-  const data = [];
-  const [expenses, setExpenses] = React.useState(data);
+  const [expenses, setExpenses] = React.useState([]);
 
   // runs only in first render
   React.useEffect(() => {
     // Load expenses from local storage when the component renders
-    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || data;
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
     console.log('from local st: ', storedExpenses)
     setExpenses(storedExpenses);
   },[]);
   
 
-  const onAddExpense = (newExpense) => {
-    newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
-    newExpense.id = uuidv4(); // add unique id
+  // const onAddExpense = (newExpense) => {
+  //   newExpense.amount = parseInt(newExpense.amount); // convert amount to an integer
+  //   newExpense.id = uuidv4(); // add unique id
 
-    //add new expense to the top of the array
-    const newArr = [newExpense, ...expenses];
+  //   //add new expense to the top of the array
+  //   const newArr = [newExpense, ...expenses];
 
-    localStorage.setItem('expenses', JSON.stringify(newArr))
-    setExpenses(newArr)
-    console.log('newly added ex', newExpense, 'new arrr', expenses);
-  }
+  //   localStorage.setItem('expenses', JSON.stringify(newArr))
+  //   setExpenses(newArr)
+  //   console.log('newly added ex', newExpense, 'new arrr', expenses);
+  // }
 
 
   return (
@@ -54,7 +53,7 @@ const AllTransactions = () => {
             <Stack>
               <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Expenses</Typography>
                 <ListContainer sx={{backgroundColor: 'secondary.light'}}>
-                  <ExpenseViewTabs data={expenses} onAddExpense={onAddExpense} />
+                  <ExpenseViewTabs data={expenses}/>
                 </ListContainer>
             </Stack>
           </Grid>

@@ -6,9 +6,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpensesList from '../Lists/ExpenseList';
 import {  Stack } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AddExpenseModal from '../Forms/AddExpense';
-import { v4 as uuidv4 } from 'uuid';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,50 +40,15 @@ function a11yProps(index) {
   };
 }
 
-const ExpenseViewTabs = ({data, onAddExpense}) => {
+const ExpenseViewTabs = ({data}) => {
   const propData = data;
-  const [value, setValue] = React.useState(0);
-  const [isAddModalOpen, setIsAddModelOpen] = React.useState(false);
-  const [newExpense, setnewExpense] = React.useState({
-    date: '',
-    category: '',
-    name: '',
-    amount: '',
-    id: undefined,
-  });
   const [expenses, setExpenses] = React.useState(propData);
-
-  const handleAddExpense = () => {
-      console.log('expense added')
-    setIsAddModelOpen(true);
-  };
-
-  const handleCloseAddModal = () => {
-    setIsAddModelOpen(false);
-  };
-
-  const handleDoneAdd = () => {
-    // Reset the id property to an empty string 
-    setnewExpense((prevData) => ({
-      ...prevData,
-      id: undefined,
-    }));
-    onAddExpense(newExpense);
-    setIsAddModelOpen(false);
-  };
-  
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setnewExpense((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -110,18 +72,6 @@ const ExpenseViewTabs = ({data, onAddExpense}) => {
           Item Three
         </CustomTabPanel>
       </Stack>
-      <Stack direction='row' justifyContent='flex-end'>
-        <AddCircleIcon sx={{ width: 30, height: 30, color: 'secondary.main', cursor: 'pointer' }} onClick={handleAddExpense} />
-      </Stack>
-
-      {/* Add Expense Modal */}
-      <AddExpenseModal
-        isOpen={isAddModalOpen}
-        onClose={handleCloseAddModal}
-        onDoneAdd={handleDoneAdd}
-        onChange={handleInputChange}
-        newExpense={newExpense}
-      />
     </Box>
   );
 }

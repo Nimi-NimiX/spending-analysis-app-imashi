@@ -70,9 +70,6 @@ export default function ExpenseViewTabs() {
           Item Three
         </CustomTabPanel>
       </Stack>
-      <Stack direction='row' justifyContent='flex-end'>
-        <AddCircleIcon sx={{width: 30, height: 30, color: 'primary.main', cursor: 'pointer'}}/>
-      </Stack>
     </Box>
   );
 }
