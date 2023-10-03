@@ -31,8 +31,11 @@ const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData })
                   value={editedData.category}
                   onChange={onChange}
                 >
-                  <MenuItem value="Transportation">Transportation</MenuItem>
                   <MenuItem value="Groceries">Groceries</MenuItem>
+                  <MenuItem value="Medical">Medical</MenuItem>
+                  <MenuItem value="Transportation">Transportation</MenuItem>
+                  <MenuItem value="Education">Education</MenuItem>
+                  <MenuItem value="UtilityBills">UtilityBills</MenuItem>
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </FormControl>
