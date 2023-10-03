@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -14,33 +15,29 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 const ExpensesList = ({expData}) => {
 
   let expenseData = expData;
-  console.log('prop', expData)
-  const [expenses, setExpenses] = React.useState([]);
-  const [filterCategory, setFilterCategory] = React.useState('');
-  const [filterResults, setFilterResults] = React.useState([]);
-  const [noResultsFound, setNoResultsFound] = React.useState(false);
+  const [expenses, setExpenses] = useState([]);
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterResults, setFilterResults] = useState([]);
+  const [noResultsFound, setNoResultsFound] = useState(false);
+
+  const expenseCategories = [ 'Groceries', 'Medical', 'Transportation', 'Education', 'UtilityBills', 'Other'];
 
   const fetchDataFromCache = () => {
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setExpenses(storedExpenses);
     setFilterResults(storedExpenses);
-    console.log('inside expense list', storedExpenses)
   }
 
   // runs only on the first render
-  React.useEffect(() => {
+  useEffect(() => {
     fetchDataFromCache();
   }, []);
 
   // runs everytime when expenses array get updated
-  React.useEffect(() => {
+  useEffect(() => {
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
     setFilterResults(storedExpenses);
   }, [expenses])
-
-  // runs everytime when filterResults array get changed 
-  // React.useEffect(() => {
-  // }, [filterResults])
 
   const handleDelete = (expenseId) => {
     const remainingExpenses = expenses.filter((expense) => expense.id !== expenseId);
@@ -55,7 +52,6 @@ const ExpensesList = ({expData}) => {
         return expense.id === editedExpense.id ? editedExpense : expense;
       });
       localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
-      console.log('soon when edited', updatedExpenses, expenses)
       
       return updatedExpenses;
     });
@@ -64,8 +60,6 @@ const ExpensesList = ({expData}) => {
   /* methods belongs to filter functionality are below */
   const onChange = (e) => {
     setFilterCategory(e.target.value);
-    console.log('selected category: ', e.target.value, 'state', filterCategory);
-    console.log('filtered data: ', expenses.filter(expense => expense.category === e.target.value))
     // replace expenses array with the filtered results
     const filteredData = expenses.filter(expense => expense.category === e.target.value);
     if(filteredData.length === 0) {
@@ -80,7 +74,6 @@ const ExpensesList = ({expData}) => {
     setNoResultsFound(false);
     setFilterCategory('');
     setFilterResults(expenses);
-    console.log('\n\n after restore', filterResults)
   }
 
   return (
@@ -108,12 +101,9 @@ const ExpensesList = ({expData}) => {
                     <MenuItem value="" disabled>
                       Select Category
                     </MenuItem>
-                    <MenuItem value="Groceries">Groceries</MenuItem>
-                    <MenuItem value="Medical">Medical</MenuItem>
-                    <MenuItem value="Transportation">Transportation</MenuItem>
-                    <MenuItem value="Education">Education</MenuItem>
-                    <MenuItem value="UtilityBills">UtilityBills</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
+                    {expenseCategories.map((category) => (
+                      <MenuItem value={category}>{category}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <Box style={{marginTop: '14px'}}><RestoreIcon onClick={restoreList}/></Box>
@@ -123,9 +113,9 @@ const ExpensesList = ({expData}) => {
         {noResultsFound
         ?
           <>
-          <Box sx={{ marginTop: 3, marginBottom: 3 }}>
-            <Typography variant='caption'>No expenses found under {filterCategory} category</Typography>
-          </Box>
+            <Box sx={{ marginTop: 3, marginBottom: 3 }}>
+              <Typography variant='caption'>No expenses found under {filterCategory} category</Typography>
+            </Box>
           </>
         : 
         <>

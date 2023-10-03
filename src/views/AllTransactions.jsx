@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect , useState} from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,13 +14,12 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const AllTransactions = () => {
-  const [expenses, setExpenses] = React.useState([]);
+  const [expenses, setExpenses] = useState([]);
 
   // runs only in first render
-  React.useEffect(() => {
+  useEffect(() => {
     // Load expenses from local storage when the component renders
     const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    console.log('from local st: ', storedExpenses)
     setExpenses(storedExpenses);
   },[]);
   

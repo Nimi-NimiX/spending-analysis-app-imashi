@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -91,8 +92,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function NavigationDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [selectedNavItem, setSelectedNavItem] = React.useState('text'); // Initial selected item
+  const [open, setOpen] = useState(false);
+  const [selectedNavItem, setSelectedNavItem] = useState('text'); // Initial selected item
 
   const handleDrawerOpen = () => {
     setOpen(true);

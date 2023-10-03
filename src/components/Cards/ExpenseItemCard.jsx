@@ -2,23 +2,17 @@ import React, { useState } from 'react';
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { Delete, Edit } from '@mui/icons-material';
 import EditExpenseModal from '../Forms/EditExpense';
-import DeleteConfirmationPopup from '../Forms/DeleteExpense';
-// import DeleteConfirmationPopup from '../Forms/DeleteExpense';
 
 const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editedData, setEditedData] = useState({ ...data });
 
   const handleEditExpense = () => {
-      console.log('item edited')
     setIsEditModalOpen(true);
   };
 
   const handleDeleteExpense = () => {
-      console.log('item deleted', data.id)
        onDelete(data.id); 
-    // setSelectedExpenseId(data.id);
-    // openDeleteConfirmationModal();
   };
 
   const handleCloseEditModal = () => {
@@ -38,19 +32,6 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
       [name]: value,
     }));
   };
-
-  
-  /* regarding delete confirmation modal */
-  // const [open, setDeleteModalOpen] = React.useState(false);
-  // const [selectedExpenseId, setSelectedExpenseId] = React.useState('');
-
-  // const openDeleteConfirmationModal = () => {
-  //   setDeleteModalOpen(true);
-  // };
-
-  // const closeDeleteConfirmationModal = () => {
-  //   setDeleteModalOpen(false);
-  // };
 
   return (
     <Box sx={{width:'100%', "&:hover": {backgroundColor: 'secondary.light',},}} paddingX='5px' paddingY='5px' borderRadius='2%'>

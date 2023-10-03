@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData }) => {
+
+  const expenseCategories = [ 'Groceries', 'Medical', 'Transportation', 'Education', 'UtilityBills', 'Other'];
+
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Container>
@@ -31,12 +34,9 @@ const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData })
                   value={editedData.category}
                   onChange={onChange}
                 >
-                  <MenuItem value="Groceries">Groceries</MenuItem>
-                  <MenuItem value="Medical">Medical</MenuItem>
-                  <MenuItem value="Transportation">Transportation</MenuItem>
-                  <MenuItem value="Education">Education</MenuItem>
-                  <MenuItem value="UtilityBills">UtilityBills</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
+                  {expenseCategories.map((category) => (
+                    <MenuItem value={category}>{category}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <TextField label="Name" name="name" value={editedData.name} onChange={onChange} />
