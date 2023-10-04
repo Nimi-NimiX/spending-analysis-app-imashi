@@ -9,7 +9,7 @@ import AddIncomeModal from '../components/Forms/AddIncome';
 import {Button, Card, CardContent, Grid, Typography,} from '@mui/material';
 import AdsClickIcon from '@mui/icons-material/AdsClick';
 import EditIcon from '@mui/icons-material/Edit';
-import { format } from 'date-fns';
+import { format, getMonth } from 'date-fns';
 
 export const BudgetingPage = () => {
     /* add-expense related use states */
@@ -32,9 +32,9 @@ export const BudgetingPage = () => {
       id: undefined,
     });
     /* use states belongs to budget setting part are below */ 
-    // const currentMonth = getMonth(Date());
+    const currentMonth = format(new Date(), 'MMMM');
     const [currentDate, setCurrentDate] = useState('');
-    const [selectedMonth, setSelectedMonth] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
     const [budgetAmount, setBudgetAmount] = useState(0);
     const [isBudgetSaved, setIsBudgetSaved] = useState(false);
     /* snackbar related usestate */
@@ -50,10 +50,12 @@ export const BudgetingPage = () => {
 
     const retrieveBudgetInCache = () => {
       const budget = localStorage.getItem('budget') || 0;
-      const month = localStorage.getItem('month') || '';
-      setSelectedMonth(month);
       setBudgetAmount(budget);
-      setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
+      if(budgetAmount !== 0){
+        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
+      } else {
+        setSnackBarMsg('Please enter your estimated budget amount! ⚠');
+      }
     }
 
     // runs only in first render
@@ -151,12 +153,6 @@ const onAddIncome = (newIncome) => {
   };
 
   /* functions belongs to budget setting part are below */ 
-  const months = [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December',
-  ];
-
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
@@ -173,10 +169,10 @@ const onAddIncome = (newIncome) => {
 
   const handleSaveBudget = () => {
     // Check if both month and budget amount are entered
-    if (selectedMonth && budgetAmount) {
+    if (budgetAmount !== 0) {
         // display success alert
-        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
         setSnackBarSeverity('success')
+        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
         handleOpenSnackBar();
         // save budget in local storage
         setSelectedMonth(selectedMonth);
@@ -187,8 +183,8 @@ const onAddIncome = (newIncome) => {
         setIsBudgetSaved(true);
     } else {
         // display warning alert 
-        setSnackBarMsg('Please enter both month and budget amount! ⚠')
         handleOpenSnackBar('warning')
+        setSnackBarMsg('Please enter your estimated budget amount! ⚠')
     }
   };
 
@@ -239,16 +235,11 @@ const onAddIncome = (newIncome) => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                             fullWidth
-                            label="Select Month"
-                            select
-                            value={selectedMonth}
-                            onChange={handleMonthChange}
+                            id="outlined-disabled"
+                            label='Current Month'
+                            disabled
+                            defaultValue={selectedMonth}
                             >
-                            {months.map((month, index) => (
-                                <MenuItem key={index} value={month}>
-                                {month}
-                                </MenuItem>
-                            ))}
                             </TextField>
                         </Grid>
                         <Grid item xs={12} sm={6}>
