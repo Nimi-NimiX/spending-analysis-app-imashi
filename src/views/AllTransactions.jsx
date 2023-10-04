@@ -18,7 +18,7 @@ const AllTransactions = () => {
   return (
     <Box sx={{ flexGrow: 1, paddingTop: '15px' }}>
       <Grid container spacing={{ xs: 2, md: 4 }}>
-          <Grid item md={6} xs={12}>
+          <Grid item md={5} xs={12}>
           <Stack>
               <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Income</Typography>
                 <ListContainer sx={{backgroundColor: 'primary.light'}}>
@@ -26,7 +26,7 @@ const AllTransactions = () => {
                 </ListContainer>
             </Stack>
           </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid item md={7} xs={12}>
             <Stack>
               <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Expenses</Typography>
                 <ListContainer sx={{backgroundColor: 'secondary.light'}}>

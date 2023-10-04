@@ -42,8 +42,8 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
         <Grid item md={2}><Box><Typography variant='caption'>{data.amount}</Typography></Box></Grid>
         <Grid item md={1.7}>
           <Stack direction='row' justifyContent='flex-end' spacing={1}>
-            <IconButton onClick={handleEditExpense}><Edit sx={{width: 20, height: 20, color: 'orange'}}/></IconButton>
-            <IconButton onClick={handleDeleteExpense}><Delete sx={{width: 20, height: 20, color: 'red'}}/></IconButton>
+            <IconButton sx={{ backgroundColor: 'secondary.light',  "&:hover": {backgroundColor: 'other.white'}}} onClick={handleEditExpense}><Edit sx={{width: 16, height: 16, color: 'orange'}}/></IconButton>
+            <IconButton sx={{ backgroundColor: 'secondary.light',  "&:hover": {backgroundColor: 'other.white'}}} onClick={handleDeleteExpense}><Delete sx={{width: 16, height: 16, color: 'red'}}/></IconButton>
           </Stack>
         </Grid>
       </Grid>
