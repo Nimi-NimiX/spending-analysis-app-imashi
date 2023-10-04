@@ -9,7 +9,7 @@ import AddIncomeModal from '../components/Forms/AddIncome';
 import {Button, Card, CardContent, Grid, Typography,} from '@mui/material';
 import AdsClickIcon from '@mui/icons-material/AdsClick';
 import EditIcon from '@mui/icons-material/Edit';
-import { getMonth } from 'date-fns';
+import { format, getMonth } from 'date-fns';
 
 export const BudgetingPage = () => {
     /* add-expense related use states */
@@ -32,17 +32,35 @@ export const BudgetingPage = () => {
       id: undefined,
     });
     /* use states belongs to budget setting part are below */ 
-    // const currentMonth = getMonth(Date());
-    const [selectedMonth, setSelectedMonth] = useState('');
+    const currentMonth = format(new Date(), 'MMMM');
+    const [currentDate, setCurrentDate] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
     const [budgetAmount, setBudgetAmount] = useState(0);
     const [isBudgetSaved, setIsBudgetSaved] = useState(false);
     /* snackbar related usestate */
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [snackBarSeverity, setSnackBarSeverity] = useState('warning');
-    const [snackBarMsg, setSnackBarMsg] = useState('message');
+    const [snackBarMsg, setSnackBarMsg] = useState('Estimated budget');
+
+    const getCurrentDate = () => {
+      const currentDate = new Date(); 
+      const formattedDate = format(currentDate, 'EEE, MMM d');
+      setCurrentDate(formattedDate);
+    }
+
+    const retrieveBudgetInCache = () => {
+      const budget = localStorage.getItem('budget') || 0;
+      setBudgetAmount(budget);
+      if(budgetAmount !== 0){
+        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
+      } else {
+        setSnackBarMsg('Please enter your estimated budget amount! ⚠');
+      }
+    }
 
     // runs only in first render
     useEffect(() => {
+      getCurrentDate();
       retrieveBudgetInCache();
       const isBudgetSet = localStorage.getItem('isBudgetSaved')
       if(isBudgetSet) {
@@ -55,7 +73,7 @@ export const BudgetingPage = () => {
       // load incomes from local storage to set the use state
       const storedIncomes = JSON.parse(localStorage.getItem('incomes')) || [];
       setIncomes(storedIncomes);
-    },[]);
+    },[snackBarMsg]);
     
  /* methods belongs to adding a new expense are below */ 
     const onAddExpense = (newExpense) => {
@@ -126,7 +144,6 @@ const onAddIncome = (newIncome) => {
     setIsAddIncomeModelOpen(false);
   };
   
-
   const handleIncomeInputChange = (e) => {
     const { name, value } = e.target;
     setnewIncome((prevData) => ({
@@ -136,12 +153,6 @@ const onAddIncome = (newIncome) => {
   };
 
   /* functions belongs to budget setting part are below */ 
-  const months = [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December',
-  ];
-
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
@@ -156,19 +167,12 @@ const onAddIncome = (newIncome) => {
     localStorage.setItem('isBudgetSaved', true);
   }
 
-  const retrieveBudgetInCache = () => {
-    const budget = localStorage.getItem('budget') || 0;
-    const month = localStorage.getItem('month') || '';
-    setSelectedMonth(month);
-    setBudgetAmount(budget);
-  }
-
   const handleSaveBudget = () => {
     // Check if both month and budget amount are entered
-    if (selectedMonth && budgetAmount) {
+    if (budgetAmount !== 0) {
         // display success alert
-        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}!`);
         setSnackBarSeverity('success')
+        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}! 🎯`);
         handleOpenSnackBar();
         // save budget in local storage
         setSelectedMonth(selectedMonth);
@@ -179,8 +183,8 @@ const onAddIncome = (newIncome) => {
         setIsBudgetSaved(true);
     } else {
         // display warning alert 
-        setSnackBarMsg('Please enter both month and budget amount!')
         handleOpenSnackBar('warning')
+        setSnackBarMsg('Please enter your estimated budget amount! ⚠')
     }
   };
 
@@ -202,9 +206,14 @@ const onAddIncome = (newIncome) => {
 
     return (
         <Container style={{ paddingRight: '80px', paddingLeft: '80px'}}>
-            <Card sx={{ marginTop: 4, marginBottom: 5, backgroundColor: 'primary.light'}} elevation={2}>
+            <Typography variant='h6' mt={2} sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>It's {currentDate}</Typography>
+            {isBudgetSaved? (
+                     <Typography variant='body2' sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>{snackBarMsg}</Typography>
+            ): null}
+            <Card sx={{ marginTop: 3, marginBottom: 3, backgroundColor: 'primary.light'}} elevation={2}>
                 {isBudgetSaved ? (
-                    <Box>
+                    <>
+                    <Box mb={2}>
                         <Box mt={5}>
                             <AdsClickIcon sx={{ color: 'primary.light', width: 100, height: 100,}}/>
                         </Box>
@@ -215,26 +224,22 @@ const onAddIncome = (newIncome) => {
                             </Box>
                         </Box>
                     </Box>
+                    </> 
                 ) : (
                 <>
                 <CardContent sx={{ color: 'other.textP', padding: '20px', paddingLeft: '90px', paddingRight: '90px', marginBottom: '20px'}}>
-                    <Typography variant="h6" gutterBottom mb={5}>
+                    <Typography variant="subtitle2" gutterBottom mb={5} mt={2} sx={{ color: 'other.textP'}}>
                         Set Estimated Budget
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
                             fullWidth
-                            label="Select Month"
-                            select
-                            value={selectedMonth}
-                            onChange={handleMonthChange}
+                            id="outlined-disabled"
+                            label='Current Month'
+                            disabled
+                            defaultValue={selectedMonth}
                             >
-                            {months.map((month, index) => (
-                                <MenuItem key={index} value={month}>
-                                {month}
-                                </MenuItem>
-                            ))}
                             </TextField>
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -256,9 +261,10 @@ const onAddIncome = (newIncome) => {
                 </>
                 )}
             </Card>
-            <Stack direction='row' justifyContent='center'>
-                <Tooltip title="Track expenses"><IconButton onClick={handleAddExpense}><RemoveCircleIcon sx={{ width: 70, height: 70, color: 'secondary.main', cursor: 'pointer' }}  /></IconButton></Tooltip>
-                <Tooltip title="Track incomes"><IconButton onClick={handleAddIncome}><AddCircleIcon sx={{width: 70, height: 70, color: 'primary.main', cursor: 'pointer'}} /></IconButton></Tooltip>
+            <Typography variant='body2' mb={4} sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>Track your incomes & expenses to see how you achieve the target!</Typography>
+            <Stack direction='row' justifyContent='center' spacing={2}>
+                <Tooltip title="Add expense"><IconButton sx={{ background: '#e9e9e9'}} onClick={handleAddExpense}><RemoveCircleIcon sx={{ width: 70, height: 70, color: 'secondary.main', cursor: 'pointer' }}  /></IconButton></Tooltip>
+                <Tooltip title="Add income"><IconButton sx={{ background: '#e9e9e9'}} onClick={handleAddIncome}><AddCircleIcon sx={{width: 70, height: 70, color: 'primary.main', cursor: 'pointer'}} /></IconButton></Tooltip>
             </Stack>
 
             {/* Add Expense Modal */}

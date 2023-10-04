@@ -58,6 +58,9 @@
 .css-qy7ta1-MuiPaper-root { 
   padding: 12px !important;
 }
+.css-zk2yu3-MuiPaper-root {
+  padding: 12px !important;
+}
 
 .css-5zhz7n-MuiPaper-root { 
   padding: 12px !important;
@@ -74,12 +77,13 @@
 }
 
 /* padding of form input boxes */ 
-/* .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-  padding: 15px 14px !important;
-  font-size: 12px !important;
-} */
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 14px 14px !important;
+  background-color: white !important;
+}
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   background-color: white !important;
+  padding: 14px 14px !important;
 }
 .css-133crpn-MuiInputBase-root-MuiOutlinedInput-root {
   background-color: white !important;
