@@ -214,7 +214,7 @@ const onAddIncome = (newIncome) => {
             {isBudgetSaved? (
                      <Typography variant='body2' sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>{snackBarMsg}</Typography>
             ): null}
-            <Card sx={{ marginTop: 3, marginBottom: 5, backgroundColor: 'primary.light'}} elevation={2}>
+            <Card sx={{ marginTop: 3, marginBottom: 3, backgroundColor: 'primary.light'}} elevation={2}>
                 {isBudgetSaved ? (
                     <>
                     <Box mb={2}>
@@ -232,7 +232,7 @@ const onAddIncome = (newIncome) => {
                 ) : (
                 <>
                 <CardContent sx={{ color: 'other.textP', padding: '20px', paddingLeft: '90px', paddingRight: '90px', marginBottom: '20px'}}>
-                    <Typography variant="h6" gutterBottom mb={5}>
+                    <Typography variant="subtitle2" gutterBottom mb={5} mt={2} sx={{ color: 'other.textP'}}>
                         Set Estimated Budget
                     </Typography>
                     <Grid container spacing={2}>
