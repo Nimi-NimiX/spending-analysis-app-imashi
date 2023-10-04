@@ -1,12 +1,12 @@
 import * as React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Stack } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import IncomeList from '../Lists/IncomeList';
+import IncomesList from '../Lists/IncomeList';
+import {  Stack } from '@mui/material';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,8 +41,8 @@ function a11yProps(index) {
   };
 }
 
-export default function ExpenseViewTabs() {
-  const [value, setValue] = React.useState(0);
+const IncomeViewTabs = () => {
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -52,7 +52,7 @@ export default function ExpenseViewTabs() {
     <Box sx={{ width: '100%' }}>
       <Stack>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs className='income-tab' value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs className='incomes-tab' value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Daily" {...a11yProps(0)} />
             <Tab label="Weekly" {...a11yProps(1)} />
             <Tab label="Monthly" {...a11yProps(2)} />
@@ -60,16 +60,22 @@ export default function ExpenseViewTabs() {
         </Box>
         <CustomTabPanel value={value} index={0}>
           <Stack>
-            <IncomeList />
+            <IncomesList type='daily'/>
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <Stack>
+            <IncomesList type='weekly' />
+          </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <Stack>
+            <IncomesList type='monthly'/>
+          </Stack>
         </CustomTabPanel>
       </Stack>
     </Box>
   );
 }
+
+export default IncomeViewTabs;
