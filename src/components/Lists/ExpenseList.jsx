@@ -7,7 +7,7 @@ import { FormControl, Grid, InputLabel, List, MenuItem, Select, Stack, Typograph
 import ExpenseItemCard from '../Cards/ExpenseItemCard';
 import ListItem from '@mui/material/ListItem';
 import RestoreIcon from '@mui/icons-material/Restore';
-import DateFilter from '../../helpers/DateFilter';
+import { DateFilter } from '../../helpers/DateFilter';
 
 const ListContainer = styled(Paper)(({ theme }) => ({
   padding: 20,

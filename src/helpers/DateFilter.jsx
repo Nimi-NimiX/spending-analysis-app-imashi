@@ -32,4 +32,14 @@ const DateFilter = (expenses, type) => {
       }
 }
 
-export default DateFilter;
+const getStartAndEndDatesOfCurrentMonth = () => {
+    const today =  new Date();
+    const startOfCurrentMonth = startOfMonth(today); // The start of the month for today
+    const endOfCurrentMonth = lastDayOfMonth(today); // The last day of the month for today
+    return {
+        start: formatDate(startOfCurrentMonth),
+        end: formatDate(endOfCurrentMonth)
+    }
+}
+
+export {DateFilter, getStartAndEndDatesOfCurrentMonth};
