@@ -7,25 +7,26 @@ import { FormControl, Grid, InputLabel, List, MenuItem, Select, Stack, Typograph
 import ExpenseItemCard from '../Cards/ExpenseItemCard';
 import ListItem from '@mui/material/ListItem';
 import RestoreIcon from '@mui/icons-material/Restore';
+import DateFilter from '../../helpers/DateFilter';
 
 const ListContainer = styled(Paper)(({ theme }) => ({
   padding: 20,
 }));
 
-const ExpensesList = ({expData}) => {
+const ExpensesList = ({type}) => {
 
-  let expenseData = expData;
   const [expenses, setExpenses] = useState([]);
   const [filterCategory, setFilterCategory] = useState('');
-  const [filterResults, setFilterResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [noResultsFound, setNoResultsFound] = useState(false);
 
   const expenseCategories = [ 'Groceries', 'Medical', 'Transportation', 'Education', 'UtilityBills', 'Other'];
 
   const fetchDataFromCache = () => {
-    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
-    setExpenses(storedExpenses);
-    setFilterResults(storedExpenses);
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    const timelyData = DateFilter(storedExpenses, type);
+    setSearchResults(timelyData);
+    setExpenses(timelyData);
   }
 
   // runs only on the first render
@@ -35,8 +36,9 @@ const ExpensesList = ({expData}) => {
 
   // runs everytime when expenses array get updated
   useEffect(() => {
-    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || expenseData;
-    setFilterResults(storedExpenses);
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    const timelyData = DateFilter(storedExpenses, type);
+    setSearchResults(timelyData);
   }, [expenses])
 
   const handleDelete = (expenseId) => {
@@ -67,13 +69,13 @@ const ExpensesList = ({expData}) => {
     } else {
       setNoResultsFound(false);
     }
-    setFilterResults(filteredData)
+    setSearchResults(filteredData)
   }
 
   const restoreList = () => {
     setNoResultsFound(false);
     setFilterCategory('');
-    setFilterResults(expenses);
+    setSearchResults(expenses);
   }
 
   return (
@@ -137,7 +139,7 @@ const ExpensesList = ({expData}) => {
               '& ul': { padding: 0 },
             }}
           >
-                  {filterResults.map((expense) => (
+                  {searchResults.map((expense) => (
                     <ListItem  key={expense.id} style={{ cursor: 'pointer', paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
                       <ExpenseItemCard
                         key={expense.id}

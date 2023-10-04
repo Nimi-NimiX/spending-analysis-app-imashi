@@ -9,6 +9,7 @@ import AddIncomeModal from '../components/Forms/AddIncome';
 import {Button, Card, CardContent, Grid, Typography,} from '@mui/material';
 import AdsClickIcon from '@mui/icons-material/AdsClick';
 import EditIcon from '@mui/icons-material/Edit';
+import { getMonth } from 'date-fns';
 
 export const BudgetingPage = () => {
     /* add-expense related use states */
@@ -31,8 +32,9 @@ export const BudgetingPage = () => {
       id: undefined,
     });
     /* use states belongs to budget setting part are below */ 
-    const [selectedMonth, setSelectedMonth] = useState(null);
-    const [budgetAmount, setBudgetAmount] = useState(null);
+    // const currentMonth = getMonth(Date());
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [budgetAmount, setBudgetAmount] = useState(0);
     const [isBudgetSaved, setIsBudgetSaved] = useState(false);
     /* snackbar related usestate */
     const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -155,8 +157,8 @@ const onAddIncome = (newIncome) => {
   }
 
   const retrieveBudgetInCache = () => {
-    const budget = localStorage.getItem('budget') || null;
-    const month = localStorage.getItem('month') || null;
+    const budget = localStorage.getItem('budget') || 0;
+    const month = localStorage.getItem('month') || '';
     setSelectedMonth(month);
     setBudgetAmount(budget);
   }

@@ -41,15 +41,12 @@ function a11yProps(index) {
   };
 }
 
-const ExpenseViewTabs = ({data}) => {
-  const propData = data;
-  const [expenses, setExpenses] = useState(propData);
+const ExpenseViewTabs = () => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -63,14 +60,18 @@ const ExpenseViewTabs = ({data}) => {
         </Box>
         <CustomTabPanel value={value} index={0}>
           <Stack>
-            <ExpensesList expData={expenses} />
+            <ExpensesList type='daily'/>
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <Stack>
+            <ExpensesList type='weekly' />
+          </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <Stack>
+            <ExpensesList type='monthly'/>
+          </Stack>
         </CustomTabPanel>
       </Stack>
     </Box>

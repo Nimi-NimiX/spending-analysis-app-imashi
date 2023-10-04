@@ -14,15 +14,7 @@ const ListContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const AllTransactions = () => {
-  const [expenses, setExpenses] = useState([]);
 
-  // runs only in first render
-  useEffect(() => {
-    // Load expenses from local storage when the component renders
-    const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    setExpenses(storedExpenses);
-  },[]);
-  
   return (
     <Box sx={{ flexGrow: 1, paddingTop: '15px' }}>
       <Grid container spacing={{ xs: 2, md: 4 }}>
@@ -38,7 +30,7 @@ const AllTransactions = () => {
             <Stack>
               <Typography variant='h6' color='other.textP' textAlign='left' fontSize='1rem' mb={1}>Expenses</Typography>
                 <ListContainer sx={{backgroundColor: 'secondary.light'}}>
-                  <ExpenseViewTabs data={expenses}/>
+                  <ExpenseViewTabs/>
                 </ListContainer>
             </Stack>
           </Grid>
