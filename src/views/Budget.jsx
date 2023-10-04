@@ -1,42 +1,59 @@
-import { Box, Stack, TextField } from '@mui/material';
+import { Alert, Box, Container, IconButton, LinearProgress, MenuItem, Snackbar, Stack, TextField, Tooltip } from '@mui/material';
+import { useState, useEffect } from 'react';
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddExpenseModal from '../components/Forms/AddExpense';
 import AddIncomeModal from '../components/Forms/AddIncome';
+import {Button, Card, CardContent, Grid, Typography,} from '@mui/material';
+import AdsClickIcon from '@mui/icons-material/AdsClick';
+import EditIcon from '@mui/icons-material/Edit';
+import { getMonth } from 'date-fns';
 
 export const BudgetingPage = () => {
-    const [isAddExpenseModalOpen, setIsAddExpenseModelOpen] = React.useState(false);
-    const [newExpense, setnewExpense] = React.useState({
+    /* add-expense related use states */
+    const [expenses, setExpenses] = useState([]);
+    const [isAddExpenseModalOpen, setIsAddExpenseModelOpen] = useState(false);
+    const [newExpense, setnewExpense] = useState({
       date: '',
       category: '',
       name: '',
       amount: '',
       id: undefined,
     });
-
-    const [expenses, setExpenses] = React.useState([]);
-    const [incomes, setIncomes] = React.useState([]);
-
-    const [isAddIncomeModalOpen, setIsAddIncomeModelOpen] = React.useState(false);
-    const [newIncome, setnewIncome] = React.useState({
+    /* add-income related use states */
+    const [incomes, setIncomes] = useState([]);
+    const [isAddIncomeModalOpen, setIsAddIncomeModelOpen] = useState(false);
+    const [newIncome, setnewIncome] = useState({
       date: '',
       name: '',
       amount: '',
       id: undefined,
     });
+    /* use states belongs to budget setting part are below */ 
+    // const currentMonth = getMonth(Date());
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [budgetAmount, setBudgetAmount] = useState(0);
+    const [isBudgetSaved, setIsBudgetSaved] = useState(false);
+    /* snackbar related usestate */
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [snackBarSeverity, setSnackBarSeverity] = useState('warning');
+    const [snackBarMsg, setSnackBarMsg] = useState('message');
 
     // runs only in first render
-    React.useEffect(() => {
+    useEffect(() => {
+      retrieveBudgetInCache();
+      const isBudgetSet = localStorage.getItem('isBudgetSaved')
+      if(isBudgetSet) {
+        setIsBudgetSaved(true);
+      }
       // Load expenses from local storage when the component renders
       const storedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
-      console.log('expenses from local st: ', storedExpenses)
       setExpenses(storedExpenses);
 
       // load incomes from local storage to set the use state
       const storedIncomes = JSON.parse(localStorage.getItem('incomes')) || [];
-      console.log('incomes from local st: ', storedIncomes)
       setIncomes(storedIncomes);
     },[]);
     
@@ -50,11 +67,9 @@ export const BudgetingPage = () => {
   
       localStorage.setItem('expenses', JSON.stringify(newArr))
       setExpenses(newArr)
-      console.log('newly added ex', newExpense, 'new arrr', expenses);
     }
   
     const handleAddExpense = () => {
-        console.log('expense added')
       setIsAddExpenseModelOpen(true);
     };
   
@@ -91,11 +106,9 @@ const onAddIncome = (newIncome) => {
 
     localStorage.setItem('incomes', JSON.stringify(newArr))
     setIncomes(newArr)
-    console.log('newly added ex', newIncome, 'new arrr', incomes);
   }
 
   const handleAddIncome = () => {
-      console.log('Income added')
     setIsAddIncomeModelOpen(true);
   };
 
@@ -122,20 +135,130 @@ const onAddIncome = (newIncome) => {
     }));
   };
 
+  /* functions belongs to budget setting part are below */ 
+  const months = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December',
+  ];
+
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const handleBudgetChange = (event) => {
+    setBudgetAmount(event.target.value);
+  };
+
+  const saveBudgetInCache = () => {
+    localStorage.setItem('budget', budgetAmount);
+    localStorage.setItem('month', selectedMonth);
+    localStorage.setItem('isBudgetSaved', true);
+  }
+
+  const retrieveBudgetInCache = () => {
+    const budget = localStorage.getItem('budget') || 0;
+    const month = localStorage.getItem('month') || '';
+    setSelectedMonth(month);
+    setBudgetAmount(budget);
+  }
+
+  const handleSaveBudget = () => {
+    // Check if both month and budget amount are entered
+    if (selectedMonth && budgetAmount) {
+        // display success alert
+        setSnackBarMsg(`You've set RS. ${budgetAmount} as the budget for ${selectedMonth}!`);
+        setSnackBarSeverity('success')
+        handleOpenSnackBar();
+        // save budget in local storage
+        setSelectedMonth(selectedMonth);
+        setBudgetAmount(budgetAmount);
+        saveBudgetInCache();
+
+        // Set budget saved state to show success icon
+        setIsBudgetSaved(true);
+    } else {
+        // display warning alert 
+        setSnackBarMsg('Please enter both month and budget amount!')
+        handleOpenSnackBar('warning')
+    }
+  };
+
+  const handleEditBudget = () => {
+    setIsBudgetSaved(false); // Set budget saved state to show the form again
+  };
+
+  /* snackbar related functions */ 
+  const handleOpenSnackBar = () => {
+    setOpenSnackBar(true);
+  };
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackBar(false);
+  };
+
     return (
-        <Box>
-            <Box>
-                <TextField
-                id='outlined-number'
-                label='Amount'
-                type='number'
-                />
-            </Box>
-            <Stack direction='row' justifyContent='flex-end'>
-                <RemoveCircleIcon sx={{ width: 30, height: 30, color: 'secondary.main', cursor: 'pointer' }} onClick={handleAddExpense} />
-            </Stack>
-            <Stack direction='row' justifyContent='flex-end'>
-                <AddCircleIcon sx={{width: 30, height: 30, color: 'primary.main', cursor: 'pointer'}} onClick={handleAddIncome}/>
+        <Container style={{ paddingRight: '80px', paddingLeft: '80px'}}>
+            <Card sx={{ marginTop: 4, marginBottom: 5, backgroundColor: 'primary.light'}} elevation={2}>
+                {isBudgetSaved ? (
+                    <Box>
+                        <Box mt={5}>
+                            <AdsClickIcon sx={{ color: 'primary.light', width: 100, height: 100,}}/>
+                        </Box>
+                        <Box mt={2}  style={{display: 'flex', justifyContent: 'flex-end'}}>
+                            <Box>
+                                <Typography variant='caption'>Change budget</Typography>
+                                <IconButton onClick={handleEditBudget}><EditIcon  sx={{ color: 'primary.main', width: 15, height: 15,}}/></IconButton>
+                            </Box>
+                        </Box>
+                    </Box>
+                ) : (
+                <>
+                <CardContent sx={{ color: 'other.textP', padding: '20px', paddingLeft: '90px', paddingRight: '90px', marginBottom: '20px'}}>
+                    <Typography variant="h6" gutterBottom mb={5}>
+                        Set Estimated Budget
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                            fullWidth
+                            label="Select Month"
+                            select
+                            value={selectedMonth}
+                            onChange={handleMonthChange}
+                            >
+                            {months.map((month, index) => (
+                                <MenuItem key={index} value={month}>
+                                {month}
+                                </MenuItem>
+                            ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                            fullWidth
+                            label="Enter Budget Amount"
+                            type="number"
+                            value={budgetAmount}
+                            onChange={handleBudgetChange}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Box mt={3} style={{display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button variant="contained" sx={{color:"other.white"}} onClick={handleSaveBudget}>
+                            Save Budget
+                        </Button>
+                    </Box>
+                    </CardContent>
+                </>
+                )}
+            </Card>
+            <Stack direction='row' justifyContent='center'>
+                <Tooltip title="Track expenses"><IconButton onClick={handleAddExpense}><RemoveCircleIcon sx={{ width: 70, height: 70, color: 'secondary.main', cursor: 'pointer' }}  /></IconButton></Tooltip>
+                <Tooltip title="Track incomes"><IconButton onClick={handleAddIncome}><AddCircleIcon sx={{width: 70, height: 70, color: 'primary.main', cursor: 'pointer'}} /></IconButton></Tooltip>
             </Stack>
 
             {/* Add Expense Modal */}
@@ -155,6 +278,13 @@ const onAddIncome = (newIncome) => {
                 onChange={handleIncomeInputChange}
                 newIncome={newIncome}
             />
-        </Box>
+
+            {/* snackbar  */}
+            <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnackBar}>
+                <Alert onClose={handleCloseSnackBar} severity={snackBarSeverity} sx={{ width: '100%' }}>
+                 {snackBarMsg}
+                </Alert>
+            </Snackbar>
+        </Container>
     )
 }

@@ -93,7 +93,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function NavigationDrawer() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [selectedNavItem, setSelectedNavItem] = useState('text'); // Initial selected item
+  const [selectedNavItem, setSelectedNavItem] = useState('budget'); // Initial selected item
 
   const handleDrawerOpen = () => {
     setOpen(true);
