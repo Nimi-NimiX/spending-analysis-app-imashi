@@ -4,8 +4,6 @@ import { Dialog, Container, DialogContent, TextField, Stack, Typography, Box, Bu
 
 const EditIncomeModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData }) => {
 
-  const incomeCategories = [ 'Groceries', 'Medical', 'Transportation', 'Education', 'UtilityBills', 'Other'];
-
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Container>
@@ -21,6 +19,16 @@ const EditIncomeModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData }) 
                 type="date"
                 name="date"
                 value={editedData.date}
+                onChange={onChange}
+              />
+            </Box>
+            <Box mb={3} sx={{ width: '100%' }}>
+              <TextField
+                label="Income name"
+                sx={{ width: '100%' }}
+                type="String"
+                name="name"
+                value={editedData.name}
                 onChange={onChange}
               />
             </Box>

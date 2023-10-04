@@ -210,7 +210,7 @@ const onAddIncome = (newIncome) => {
 
     return (
         <Container style={{ paddingRight: '80px', paddingLeft: '80px'}}>
-            <Typography variant='h6' sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>It's {currentDate}</Typography>
+            <Typography variant='h6' mt={2} sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>It's {currentDate}</Typography>
             {isBudgetSaved? (
                      <Typography variant='body2' sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>{snackBarMsg}</Typography>
             ): null}
@@ -270,10 +270,10 @@ const onAddIncome = (newIncome) => {
                 </>
                 )}
             </Card>
-            <Typography variant='body2' mb={2} sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>Track your incomes & expenses to see how you achieve the target!</Typography>
-            <Stack direction='row' justifyContent='center'>
-                <Tooltip title="Add expense"><IconButton onClick={handleAddExpense}><RemoveCircleIcon sx={{ width: 70, height: 70, color: 'secondary.main', cursor: 'pointer' }}  /></IconButton></Tooltip>
-                <Tooltip title="Add income"><IconButton onClick={handleAddIncome}><AddCircleIcon sx={{width: 70, height: 70, color: 'primary.main', cursor: 'pointer'}} /></IconButton></Tooltip>
+            <Typography variant='body2' mb={4} sx={{ color: 'other.textP', textAlign: 'left', background: 'primary.light'}}>Track your incomes & expenses to see how you achieve the target!</Typography>
+            <Stack direction='row' justifyContent='center' spacing={2}>
+                <Tooltip title="Add expense"><IconButton sx={{ background: '#e9e9e9'}} onClick={handleAddExpense}><RemoveCircleIcon sx={{ width: 70, height: 70, color: 'secondary.main', cursor: 'pointer' }}  /></IconButton></Tooltip>
+                <Tooltip title="Add income"><IconButton sx={{ background: '#e9e9e9'}} onClick={handleAddIncome}><AddCircleIcon sx={{width: 70, height: 70, color: 'primary.main', cursor: 'pointer'}} /></IconButton></Tooltip>
             </Stack>
 
             {/* Add Expense Modal */}
