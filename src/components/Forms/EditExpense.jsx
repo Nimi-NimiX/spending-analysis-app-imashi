@@ -35,7 +35,7 @@ const EditExpenseModal = ({ isOpen, onClose, onDoneEdit, onChange, editedData })
                   onChange={onChange}
                 >
                   {expenseCategories.map((category) => (
-                    <MenuItem value={category}>{category}</MenuItem>
+                    <MenuItem key={category} value={category}>{category}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import { Delete, Edit } from '@mui/icons-material';
 import EditExpenseModal from '../Forms/EditExpense';
 
@@ -42,8 +42,8 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
         <Grid item md={2}><Box><Typography variant='caption'>{data.amount}</Typography></Box></Grid>
         <Grid item md={1.7}>
           <Stack direction='row' justifyContent='flex-end' spacing={1}>
-            <Edit onClick={handleEditExpense} sx={{width: 20, height: 20, color: 'orange'}}/>
-            <Delete onClick={handleDeleteExpense} sx={{width: 20, height: 20, color: 'red'}}/>
+            <IconButton onClick={handleEditExpense}><Edit sx={{width: 20, height: 20, color: 'orange'}}/></IconButton>
+            <IconButton onClick={handleDeleteExpense}><Delete sx={{width: 20, height: 20, color: 'red'}}/></IconButton>
           </Stack>
         </Grid>
       </Grid>
@@ -56,13 +56,6 @@ const ExpenseItemCard = ({ data, onEdit, onDelete }) => {
         onChange={handleInputChange}
         editedData={editedData}
       />
-      {/* Delete Modal */}
-      {/* <DeleteConfirmationPopup
-        isOpen={open}
-        onDelete={onDelete}
-        selectedExpenseId={selectedExpenseId}
-        onClose={closeDeleteConfirmationModal}
-        /> */}
     </Box>
   );
 }
